@@ -39,7 +39,7 @@ async function run() {
       const user = req.body;
       console.log("user", user);
       const result = await usersCollection.insertOne(user);
-      console.log(result);
+      // console.log(result);
       res.json(result);
     });
     app.put("/users", async (req, res) => {
@@ -95,11 +95,22 @@ async function run() {
     });
 
     // removing order
-    app.delete("/product/:id", async (req, res) => {
+    app.delete("/order/:id", async (req, res) => {
       const id = req.params.id;
       console.log("id", id);
       const query = { productId: id };
       const result = await purchaseCollection.deleteOne(query);
+      res.json(result);
+    });
+
+    // removing product
+    app.delete("/product/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log("id", id);
+      // const query = { productId: id };
+      const query = { _id: ObjectId(id) };
+      const result = await carCollection.deleteOne(query);
+      // console.log(result);
       res.json(result);
     });
 

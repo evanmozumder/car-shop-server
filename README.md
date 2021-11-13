@@ -1,8 +1,8 @@
 # Car Shop
 
-### [Visit Website](https://react-firebase-authentic-b87de.web.app/)
+### [Visit Website](https://react-firebase-authentic-ff42b.web.app/)
 
-Our Car Shop is one of the best best shop of Bangladesh. We have glorious past. We provide authentic car.
+Our Car Shop is one of the best best shop of Bangladesh. We have glorious past. We provide best car.
 
 - We Provide Premium Car at best price
 - We provide at least 5 free service

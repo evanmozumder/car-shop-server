@@ -60,13 +60,16 @@ async function run() {
     // logged in user's roll
     app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
+      // console.log("email", email);
       const query = { email: email };
       const user = await usersCollection.findOne(query);
+      // console.log("user", await user);
       let isAdmin = false;
-      if (user?.roll === "admin") {
+      if ((await user?.roll) === "admin") {
         isAdmin = true;
       }
-      res.json({ admin: isAdmin });
+      // console.log("admin", isAdmin);
+      res.json({ admin: await isAdmin });
     });
 
     // get specific car details
@@ -98,8 +101,9 @@ async function run() {
     app.delete("/order/:id", async (req, res) => {
       const id = req.params.id;
       console.log("id", id);
-      const query = { productId: id };
+      const query = { _id: ObjectId(id) };
       const result = await purchaseCollection.deleteOne(query);
+      console.log("result", result);
       res.json(result);
     });
 
@@ -109,8 +113,9 @@ async function run() {
       console.log("id", id);
       // const query = { productId: id };
       const query = { _id: ObjectId(id) };
+      console.log("query", query);
       const result = await carCollection.deleteOne(query);
-      // console.log(result);
+      console.log(result);
       res.json(result);
     });
 
@@ -157,6 +162,27 @@ async function run() {
       const filter = { email: user.email };
       const updateDoc = { $set: { roll: "admin" } };
       const result = await usersCollection.updateOne(filter, updateDoc);
+      res.json(result);
+    });
+
+    // updating order status
+    app.put("/order/:id", async (req, res) => {
+      const id = req.params.id;
+      const order = req.body;
+      // console.log("id", id, "order", order);
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          status: order.status,
+        },
+      };
+      const result = await purchaseCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      // console.log("result", result);
       res.json(result);
     });
   } finally {
